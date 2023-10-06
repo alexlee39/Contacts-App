@@ -58,6 +58,7 @@ class Task extends HBox {
     public void setTaskIndex(int num) {
         this.index.setText(num + ""); // num to String
         this.taskName.setPromptText("Task " + num);
+        
     }
 
     public TextField getTaskName() {
@@ -138,14 +139,8 @@ class TaskList extends VBox {
         catch(IOException e){
             System.out.println("There is no file called 'tasks.txt' ");
         }
-        // hint 1: use try-catch block
-        // hint 2: use BufferedReader and FileReader
-        // hint 3: task.getTaskName().setText() sets the text of the task
-
-        // System.out.println("loadtasks() not implemented!");
     }
 
-    // TODO: Complete this method
     /*
      * Save tasks to a file called "tasks.txt"
      */
@@ -166,11 +161,6 @@ class TaskList extends VBox {
         catch(IOException e){
             System.out.println("Exception is caught!");
         }   
-        // hint 1: use try-catch block
-        // hint 2: use FileWriter
-        // hint 3: this.getChildren() gets the list of tasks
-
-        // System.out.println("savetasks() not implemented!");
     }
 
     // TODO: Complete this method
@@ -188,27 +178,18 @@ class TaskList extends VBox {
         for(int i = 0; i < this.getChildren().size();i++){
             ((Task)this.getChildren().get(i)).getTaskName().setText(lst.get(i));
         }
-        // Collections.sort(this.getChildren())
-        // for(int i = 0; i < this.getChildren().size();i++){
-        
-        // }
-        // hint 1: this.getChildren() gets the list of tasks
-        // hint 2: Collections.sort() can be used to sort the tasks
-        // hint 3: task.getTaskName().setText() sets the text of the task
-
-        //  System.out.println("sorttasks() not implemented!");
     }
 }
 
 class Footer extends HBox {
 
-    private Button addButton;
+    private Button createButton;
     private Button clearButton;
-    private Button loadButton;
-    private Button saveButton;
+    private Button readButton;
+    private Button updateButton;
     private Button sortButton;
-    // TODO: Add a button called "loadButton" to load tasks from file
-    // TODO: Add a button called "saveButton" to save tasks to a file
+    // TODO: Add a button called "readButton" to load tasks from file
+    // TODO: Add a button called  updateButton" to save tasks to a file
     // TODO: Add a button called "sortButton" to sort the tasks lexicographically
 
     Footer() {
@@ -219,38 +200,37 @@ class Footer extends HBox {
         // set a default style for buttons - background color, font size, italics
         String defaultButtonStyle = "-fx-font-style: italic; -fx-background-color: #FFFFFF;  -fx-font-weight: bold; -fx-font: 11 arial;";
 
-        addButton = new Button("Add Task"); // text displayed on add button
-        addButton.setStyle(defaultButtonStyle); // styling the button
-        clearButton = new Button("Clear finished"); // text displayed on clear tasks button
+        createButton = new Button("CREATE"); // text displayed on add button
+        createButton.setStyle(defaultButtonStyle); // styling the button
+        clearButton = new Button("DELETE"); // text displayed on clear tasks button
         clearButton.setStyle(defaultButtonStyle);
 
-        // TODO: Create loadButton, saveButton and sortButton to the footer
-        loadButton = new Button("Load Tasks");
-        loadButton.setStyle(defaultButtonStyle);
-        saveButton = new Button("Save Tasks");
-        saveButton.setStyle(defaultButtonStyle);
+        // TODO: Create readButton, updateButton and sortButton to the footer
+        readButton = new Button("READ");
+        readButton.setStyle(defaultButtonStyle);
+     updateButton = new Button("UPDATE");
+     updateButton.setStyle(defaultButtonStyle);
         sortButton = new Button("Sort Tasks (By Name)");
         sortButton.setStyle(defaultButtonStyle);
 
-        this.getChildren().addAll(addButton, clearButton,loadButton,saveButton,sortButton); // adding buttons to footer
+        this.getChildren().addAll(createButton, clearButton,readButton,updateButton,sortButton); // adding buttons to footer
         this.setAlignment(Pos.CENTER); // aligning the buttons to center
     }
 
-    public Button getAddButton() {
-        return addButton;
+    public Button getCreateButton() { // Formerly "getAddButton"
+        return createButton; // Formerly "addButton"
     }
 
-    public Button getClearButton() {
-        return clearButton;
+    public Button getReadButton() { // Formerly "getLoadButton"
+        return readButton; // Formerly "loadButton"
     }
 
-    // TODO: Add getters for loadButton, saveButton and sortButton
-    public Button getLoadButton() {
-        return loadButton;
+    public Button getUpdateButton() { // Formerly "getSave Button"
+        return updateButton; // Formerly "save Button"
     }
 
-    public Button getSaveButton() {
-        return saveButton;
+    public Button getDeleteButton() { // Formerly "getClearButton"
+        return clearButton; // Formerly "clearbutton"
     }
 
     public Button getSortButton() {
@@ -264,7 +244,7 @@ class Header extends HBox {
         this.setPrefSize(500, 60); // Size of the header
         this.setStyle("-fx-background-color: #F0F8FF;");
 
-        Text titleText = new Text("To Do List"); // Text of the Header
+        Text titleText = new Text("CONTACTS"); // Text of the Header
         titleText.setStyle("-fx-font-weight: bold; -fx-font-size: 20;");
         this.getChildren().add(titleText);
         this.setAlignment(Pos.CENTER); // Align the text to the Center
@@ -278,10 +258,10 @@ class AppFrame extends BorderPane{
     private TaskList taskList;
     private ScrollPane scrollBar;
 
-    private Button addButton;
+    private Button createButton;
     private Button clearButton;
-    private Button loadButton;
-    private Button saveButton;
+    private Button readButton;
+    private Button updateButton;
     private Button sortButton;
 
     AppFrame()
@@ -315,20 +295,24 @@ class AppFrame extends BorderPane{
         this.setBottom(footer);
 
         // Initialise Button Variables through the getters in Footer
-        addButton = footer.getAddButton();
-        clearButton = footer.getClearButton();
-        loadButton = footer.getLoadButton();
-        saveButton = footer.getSaveButton();
+        createButton = footer.getCreateButton();
+        clearButton = footer.getDeleteButton();
+        readButton = footer.getReadButton();
+     updateButton = footer.getUpdateButton();
         sortButton = footer.getSortButton();
         // Call Event Listeners for the Buttons
         addListeners();
     }
 
+
+    
+    
+    
     public void addListeners()
     {
 
         // Add button functionality
-        addButton.setOnAction(e -> {
+        createButton.setOnAction(e -> {
             // Create a new task
             Task task = new Task();
             // Add task to tasklist
@@ -347,7 +331,7 @@ class AppFrame extends BorderPane{
         clearButton.setOnAction(e -> {
             taskList.removeCompletedTasks();
         });
-        loadButton.setOnAction(e -> {
+        readButton.setOnAction(e -> {
             taskList.loadTasks();
             //Get ArrayList<Task> to 
             for(int i = 0; i < taskList.getChildren().size();i++){
@@ -360,7 +344,7 @@ class AppFrame extends BorderPane{
                 taskList.updateTaskIndices();
             }
         });
-        saveButton.setOnAction(e -> {
+     updateButton.setOnAction(e -> {
             taskList.saveTasks();
         });
         sortButton.setOnAction(e -> {
