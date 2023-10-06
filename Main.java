@@ -28,7 +28,7 @@ class Task extends HBox {
 
     private boolean markedDone;
 
-    Task() {
+    Task(String text) {
         this.setPrefSize(500, 20); // sets size of task
         this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // sets background color of task
         markedDone = false;
@@ -53,13 +53,15 @@ class Task extends HBox {
         doneButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
 
         this.getChildren().add(doneButton);
+        taskName.setPromptText(text);
     }
 
-    public void setTaskIndex(int num) {
-        this.index.setText(num + ""); // num to String
-        this.taskName.setPromptText("Task " + num);
+    // public void setTaskIndex(int num) {
+    //     this.index.setText(num + ""); // num to String
+    //     this.taskName.setPromptText("Task " + num);
         
-    }
+    // }
+    
 
     public TextField getTaskName() {
         return this.taskName;
@@ -101,19 +103,19 @@ class TaskList extends VBox {
         this.setStyle("-fx-background-color: #F0F8FF;");
     }
 
-    public void updateTaskIndices() {
-        int index = 1;
-        for (int i = 0; i < this.getChildren().size(); i++) {
-            if (this.getChildren().get(i) instanceof Task) {
-                ((Task) this.getChildren().get(i)).setTaskIndex(index);
-                index++;
-            }
-        }
-    }
+    // public void updateTaskIndices() {
+    //     int index = 1;
+    //     for (int i = 0; i < this.getChildren().size(); i++) {
+    //         if (this.getChildren().get(i) instanceof Task) {
+    //             ((Task) this.getChildren().get(i)).setTaskIndex(index);
+    //             index++;
+    //         }
+    //     }
+    // }
 
     public void removeCompletedTasks() {
         this.getChildren().removeIf(task -> task instanceof Task && ((Task) task).isMarkedDone());
-        this.updateTaskIndices();
+        //this.updateTaskIndices();
     }
 
     /*
@@ -127,10 +129,10 @@ class TaskList extends VBox {
             reader = new BufferedReader(fileName);
             String line = reader.readLine();
             while(line != null){
-                Task task = new Task();
+                Task task = new Task("text");
                 task.getTaskName().setText(line);
                 this.getChildren().add(task);
-                this.updateTaskIndices();
+                //this.updateTaskIndices();
                 line = reader.readLine();
             }
 
@@ -163,7 +165,6 @@ class TaskList extends VBox {
         }   
     }
 
-    // TODO: Complete this method
     /*
      * Sort the tasks lexicographically
      */
@@ -184,13 +185,10 @@ class TaskList extends VBox {
 class Footer extends HBox {
 
     private Button createButton;
-    private Button clearButton;
+    private Button deleteButton;
     private Button readButton;
     private Button updateButton;
     private Button sortButton;
-    // TODO: Add a button called "readButton" to load tasks from file
-    // TODO: Add a button called  updateButton" to save tasks to a file
-    // TODO: Add a button called "sortButton" to sort the tasks lexicographically
 
     Footer() {
         this.setPrefSize(500, 60);
@@ -205,11 +203,11 @@ class Footer extends HBox {
         clearButton = new Button("DELETE"); // text displayed on clear tasks button
         clearButton.setStyle(defaultButtonStyle);
 
-        // TODO: Create readButton, updateButton and sortButton to the footer
+        // Create readButton, updateButton and sortButton to the footer
         readButton = new Button("READ");
         readButton.setStyle(defaultButtonStyle);
-     updateButton = new Button("UPDATE");
-     updateButton.setStyle(defaultButtonStyle);
+        updateButton = new Button("UPDATE");
+        updateButton.setStyle(defaultButtonStyle);
         sortButton = new Button("Sort Tasks (By Name)");
         sortButton.setStyle(defaultButtonStyle);
 
@@ -230,7 +228,7 @@ class Footer extends HBox {
     }
 
     public Button getDeleteButton() { // Formerly "getClearButton"
-        return clearButton; // Formerly "clearbutton"
+        return deleteButton; // Formerly "clearbutton"
     }
 
     public Button getSortButton() {
@@ -259,7 +257,7 @@ class AppFrame extends BorderPane{
     private ScrollPane scrollBar;
 
     private Button createButton;
-    private Button clearButton;
+    private Button deleteButton;
     private Button readButton;
     private Button updateButton;
     private Button sortButton;
@@ -275,10 +273,7 @@ class AppFrame extends BorderPane{
         // Initialise the Footer Object
         footer = new Footer();
 
-        // TODO: Add a Scroller to the Task List
-        // hint 1: ScrollPane() is the Pane Layout used to add a scroller - it will take the tasklist as a parameter
-        // hint 2: setFitToWidth, and setFitToHeight attributes are used for setting width and height
-        // hint 3: The center of the AppFrame layout should be the scroller window instead  of tasklist
+        // Adds a Scroller to the Task List
         scrollBar = new ScrollPane(taskList);
         if(taskList.getChildren().size() < 11){
             scrollBar.setFitToHeight(true);
@@ -304,27 +299,36 @@ class AppFrame extends BorderPane{
         addListeners();
     }
 
-
-    
-    
-    
     public void addListeners()
     {
 
         // Add button functionality
         createButton.setOnAction(e -> {
             // Create a new task
-            Task task = new Task();
+            Task task = new Task("Name");
             // Add task to tasklist
             taskList.getChildren().add(task);
+
+            Task task2 = new Task("Email");
+            // Add task to tasklist
+            taskList.getChildren().add(task2);
+
+            Task task3 = new Task("Phone Number");
+            // Add task to tasklist
+            taskList.getChildren().add(task3);
+
             // Add doneButtonToggle to the Done button
             Button doneButton = task.getDoneButton();
+            
             doneButton.setOnAction(e1 -> {
                 // Call toggleDone on click
                 task.toggleDone();
+                task2.toggleDone();
+                task3.toggleDone();                
+            
             });
             // Update task indices
-            taskList.updateTaskIndices();
+            //taskList.updateTaskIndices();
         });
         
         // Clear finished tasks
@@ -341,7 +345,7 @@ class AppFrame extends BorderPane{
                 // Call toggleDone on click
                 task.toggleDone();
                 });
-                taskList.updateTaskIndices();
+                //taskList.updateTaskIndices();
             }
         });
      updateButton.setOnAction(e -> {
