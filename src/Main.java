@@ -57,18 +57,6 @@ class Contacts extends VBox{
     //     Button testing = new Button();
     //     test.getChildren().add(testing);
     // }
-
-    public Info getFirstName() {
-        return this.firstName;
-    }
-
-    public Info getMail() {
-        return this.mail;
-    }
-
-    public Info getNum() {
-        return this.num;
-    }
 }
 
 class Info extends HBox {
@@ -403,7 +391,7 @@ class AppFrame extends BorderPane{
         createButton = footer.getCreateButton();
         // clearButton = footer.getDeleteButton();
         readButton = footer.getReadButton();
-     updateButton = footer.getUpdateButton();
+        updateButton = footer.getUpdateButton();
         sortButton = footer.getSortButton();
         // Call Event Listeners for the Buttons
         addListeners();
