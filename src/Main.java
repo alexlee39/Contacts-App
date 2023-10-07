@@ -32,9 +32,9 @@ class Contacts extends VBox{
     private Button test;
     
     Contacts(String name, String email, String phoneNum){
-        firstName = new Info(name);
-        mail = new Info(email);
-        num = new Info(phoneNum);
+        firstName = new Info(name,true);
+        mail = new Info(email,false);
+        num = new Info(phoneNum,false);
         this.getChildren().add(firstName);
         this.getChildren().add(mail);
         this.getChildren().add(num);
@@ -67,60 +67,90 @@ class Info extends HBox {
 
     private boolean markedDone;
 
-    Info(String text) {
-        this.setPrefSize(500, 20); // sets size of task
-        this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // sets background color of task
-        markedDone = false;
+    // Info(String text) {
+    //     this.setPrefSize(500, 20); // sets size of task
+    //     this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // sets background color of task
+    //     markedDone = false;
 
-        // index = new Label();
-        // index.setText(""); // create index label
-        // index.setPrefSize(40, 20); // set size of Index label
-        // index.setTextAlignment(TextAlignment.CENTER); // Set alignment of index label
-        // index.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the task
-        // this.getChildren().add(index); // add index label to task
+    //     // index = new Label();
+    //     // index.setText(""); // create index label
+    //     // index.setPrefSize(40, 20); // set size of Index label
+    //     // index.setTextAlignment(TextAlignment.CENTER); // Set alignment of index label
+    //     // index.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the task
+    //     // this.getChildren().add(index); // add index label to task
 
-        infoName = new TextField(); // create task name text field
-        infoName.setPrefSize(380, 20); // set size of text field
-        infoName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // set background color of texfield
-        // index.setTextAlignment(TextAlignment.LEFT); // set alignment of text field
-        infoName.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the text field
-        this.getChildren().add(infoName); // add textlabel to task
+    //     infoName = new TextField(); // create task name text field
+    //     infoName.setPrefSize(380, 20); // set size of text field
+    //     infoName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // set background color of texfield
+    //     // index.setTextAlignment(TextAlignment.LEFT); // set alignment of text field
+    //     infoName.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the text field
+    //     this.getChildren().add(infoName); // add textlabel to task
         
-        // doneButton = new Button("Done"); // creates a button for marking the task as done
-        // doneButton.setPrefSize(100, 20);
-        // doneButton.setPrefHeight(Double.MAX_VALUE);
-        // doneButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
+    //     // doneButton = new Button("Done"); // creates a button for marking the task as done
+    //     // doneButton.setPrefSize(100, 20);
+    //     // doneButton.setPrefHeight(Double.MAX_VALUE);
+    //     // doneButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
 
-        // this.getChildren().add(doneButton);
-        infoName.setPromptText(text);
-    }
+    //     // this.getChildren().add(doneButton);
+    //     infoName.setPromptText(text);
+    // }
 
-        Info(String text, boolean taskName) {
-        this.setPrefSize(500, 20); // sets size of task
-        this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // sets background color of task
-        markedDone = false;
+        Info(String text, boolean taskName) { // TaskName is True if its for name Info, otherwise false(for email and phone Num info)
 
-        // index = new Label();
-        // index.setText(""); // create index label
-        // index.setPrefSize(40, 20); // set size of Index label
-        // index.setTextAlignment(TextAlignment.CENTER); // Set alignment of index label
-        // index.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the task
-        // this.getChildren().add(index); // add index label to task
+        if(taskName == true){
+             this.setPrefSize(500, 20); // sets size of task
+            this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // sets background color of task
+            markedDone = false;
 
-        infoName = new TextField(); // create task name text field
-        infoName.setPrefSize(380, 20); // set size of text field
-        infoName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // set background color of texfield
-        // index.setTextAlignment(TextAlignment.LEFT); // set alignment of text field
-        infoName.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the text field
-        this.getChildren().add(infoName); // add textlabel to task
-        
-        // doneButton = new Button("Done"); // creates a button for marking the task as done
-        // doneButton.setPrefSize(100, 20);
-        // doneButton.setPrefHeight(Double.MAX_VALUE);
-        // doneButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
+            // index = new Label();
+            // index.setText(""); // create index label
+            // index.setPrefSize(40, 20); // set size of Index label
+            // index.setTextAlignment(TextAlignment.CENTER); // Set alignment of index label
+            // index.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the task
+            // this.getChildren().add(index); // add index label to task
 
-        // this.getChildren().add(doneButton);
-        infoName.setPromptText(text);
+            infoName = new TextField(); // create task name text field
+            infoName.setPrefSize(380, 20); // set size of text field
+            infoName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // set background color of texfield
+            // index.setTextAlignment(TextAlignment.LEFT); // set alignment of text field
+            infoName.setPadding(new Insets(10, 10, 10, 0)); // adds some padding to the text field
+            this.getChildren().add(infoName); // add textlabel to task
+            
+            doneButton = new Button("Done"); // creates a button for marking the task as done
+            doneButton.setPrefSize(100, 20);
+            doneButton.setPrefHeight(Double.MAX_VALUE);
+            doneButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
+
+            this.getChildren().add(doneButton);
+            infoName.setPromptText(text);
+        }
+        else{
+            this.setPrefSize(500, 20); // sets size of task
+            this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // sets background color of task
+            markedDone = false;
+
+            // index = new Label();
+            // index.setText(""); // create index label
+            // index.setPrefSize(40, 20); // set size of Index label
+            // index.setTextAlignment(TextAlignment.CENTER); // Set alignment of index label
+            // index.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the task
+            // this.getChildren().add(index); // add index label to task
+
+            infoName = new TextField(); // create task name text field
+            infoName.setPrefSize(380, 20); // set size of text field
+            infoName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // set background color of texfield
+            // index.setTextAlignment(TextAlignment.LEFT); // set alignment of text field
+            infoName.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the text field
+            this.getChildren().add(infoName); // add textlabel to task
+            
+            // doneButton = new Button("Done"); // creates a button for marking the task as done
+            // doneButton.setPrefSize(100, 20);
+            // doneButton.setPrefHeight(Double.MAX_VALUE);
+            // doneButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
+
+            // this.getChildren().add(doneButton);
+            infoName.setPromptText(text);
+        }
     }
 
     // public void setTaskIndex(int num) {
