@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -11,14 +12,18 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.text.TextAlignment;
 import javafx.geometry.Insets;
 import javafx.scene.text.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
+import java.io.File;
 
 class Contact extends VBox{
 
@@ -363,6 +368,12 @@ class AppFrame extends BorderPane{
 
 public class Main extends Application {
 
+    // To display images
+    private ImageView imageView = new ImageView();
+
+    // To open a file dialog for selecting images
+    private FileChooser fileChooser = new FileChooser();
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -377,6 +388,7 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         // Show the app
         primaryStage.show();
+        
     }
 
     public static void main(String[] args) {
