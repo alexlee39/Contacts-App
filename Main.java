@@ -200,8 +200,8 @@ class Footer extends HBox {
 
         createButton = new Button("CREATE"); // text displayed on add button
         createButton.setStyle(defaultButtonStyle); // styling the button
-        clearButton = new Button("DELETE"); // text displayed on clear tasks button
-        clearButton.setStyle(defaultButtonStyle);
+        deleteButton = new Button("DELETE"); // text displayed on clear tasks button
+        deleteButton.setStyle(defaultButtonStyle);
 
         // Create readButton, updateButton and sortButton to the footer
         readButton = new Button("READ");
@@ -211,7 +211,7 @@ class Footer extends HBox {
         sortButton = new Button("Sort Tasks (By Name)");
         sortButton.setStyle(defaultButtonStyle);
 
-        this.getChildren().addAll(createButton, clearButton,readButton,updateButton,sortButton); // adding buttons to footer
+        this.getChildren().addAll(createButton, deleteButton,readButton,updateButton,sortButton); // adding buttons to footer
         this.setAlignment(Pos.CENTER); // aligning the buttons to center
     }
 
@@ -223,12 +223,12 @@ class Footer extends HBox {
         return readButton; // Formerly "loadButton"
     }
 
-    public Button getUpdateButton() { // Formerly "getSave Button"
-        return updateButton; // Formerly "save Button"
+    public Button getUpdateButton() { // Formerly "getSaveButton"
+        return updateButton; // Formerly "saveButton"
     }
 
-    public Button getDeleteButton() { // Formerly "getClearButton"
-        return deleteButton; // Formerly "clearbutton"
+    public Button getDeleteButton() { // Formerly "getDeleteButton"
+        return deleteButton; // Formerly "deleteButton"
     }
 
     public Button getSortButton() {
@@ -289,11 +289,11 @@ class AppFrame extends BorderPane{
         // Add footer to the bottom of the BorderPane
         this.setBottom(footer);
 
-        // Initialise Button Variables through the getters in Footer
+        // Initialize Button Variables through the getters in Footer
         createButton = footer.getCreateButton();
-        clearButton = footer.getDeleteButton();
+        deleteButton = footer.getDeleteButton();
         readButton = footer.getReadButton();
-     updateButton = footer.getUpdateButton();
+        updateButton = footer.getUpdateButton();
         sortButton = footer.getSortButton();
         // Call Event Listeners for the Buttons
         addListeners();
@@ -332,7 +332,7 @@ class AppFrame extends BorderPane{
         });
         
         // Clear finished tasks
-        clearButton.setOnAction(e -> {
+        deleteButton.setOnAction(e -> {
             taskList.removeCompletedTasks();
         });
         readButton.setOnAction(e -> {
