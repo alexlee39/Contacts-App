@@ -57,6 +57,19 @@ class Contacts extends VBox{
     //     Button testing = new Button();
     //     test.getChildren().add(testing);
     // }
+
+    public Info getFirstName() {
+        return this.firstName;
+    }
+
+    public Info getMail() {
+        return this.mail;
+    }
+
+    public Info getNum() {
+        return this.num;
+    }
+
 }
 
 class Info extends HBox {
@@ -160,7 +173,6 @@ class Info extends HBox {
         
     // }
     
-
     public TextField getInfoName() {
         return this.infoName;
     }
@@ -404,17 +416,21 @@ class AppFrame extends BorderPane{
         createButton.setOnAction(e -> {
             // Create a new task
             // Info info = new Info("Name");
-            Contacts contact= new Contacts("Name", "Email", "Phone Number");
+            Contacts contact = new Contacts("Name", "Email", "Phone Number");
             // Add task to tasklist
             contactList.getChildren().add(contact);
+
+            // Add doneButtonToggle to the Done button
+            Button doneButton = contact.getFirstName().getDoneButton();
+            doneButton.setOnAction(e1 -> {
+            // Call toggleDone on click
+            contact.getFirstName().toggleDone();
 
             /* Contacts Testing for Button
              * contact.getNameInfo()
              * 
              */
             // contact.
-
-
 
             // Info info2 = new Info("Email");
             // // Add task to tasklist
@@ -424,8 +440,7 @@ class AppFrame extends BorderPane{
             // // Add task to tasklist
             // contactList.getChildren().add(info3);
 
-            // // Add doneButtonToggle to the Done button
-            // Button doneButton = info.getDoneButton();
+            
             
             // doneButton.setOnAction(e1 -> {
             //     // Call toggleDone on click
