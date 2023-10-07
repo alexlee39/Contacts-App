@@ -66,7 +66,6 @@ class Contacts extends VBox{
     //     Button testing = new Button();
     //     test.getChildren().add(testing);
     // }
-    
 }
 
 class Info extends HBox {
