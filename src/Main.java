@@ -24,6 +24,16 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 import java.io.File;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Pos;
+
 
 class Contacts extends VBox{
     private Info firstName;
@@ -56,6 +66,7 @@ class Contacts extends VBox{
     //     Button testing = new Button();
     //     test.getChildren().add(testing);
     // }
+    
 }
 
 class Info extends HBox {
@@ -390,7 +401,7 @@ class AppFrame extends BorderPane{
         createButton = footer.getCreateButton();
         // clearButton = footer.getDeleteButton();
         readButton = footer.getReadButton();
-     updateButton = footer.getUpdateButton();
+        updateButton = footer.getUpdateButton();
         sortButton = footer.getSortButton();
         // Call Event Listeners for the Buttons
         addListeners();
