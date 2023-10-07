@@ -56,6 +56,18 @@ class Contacts extends VBox{
     //     Button testing = new Button();
     //     test.getChildren().add(testing);
     // }
+
+    public Info getFirstName() {
+        return this.firstName;
+    }
+
+    public Info getMail() {
+        return this.mail;
+    }
+
+    public Info getNum() {
+        return this.num;
+    }
 }
 
 class Info extends HBox {
