@@ -20,44 +20,102 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class Contact extends VBox{
+class Contacts extends VBox{
+    private Info firstName;
+    private Info mail;
+    private Info num;
+    private Button test;
+    
+    Contacts(String name, String email, String phoneNum){
+        firstName = new Info(name);
+        mail = new Info(email);
+        num = new Info(phoneNum);
+        this.getChildren().add(firstName);
+        this.getChildren().add(mail);
+        this.getChildren().add(num);
 
+        // test = new Button("Done"); // creates a button for marking the task as done
+        // test.setPrefSize(100, 20);
+        // test.setPrefHeight(Double.MAX_VALUE);
+        // test.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
+
+        // this.getChildren().add(test);
+
+        // this.setSpacing(5); // sets spacing between contacts
+
+        // this.setPrefSize(500, 560);
+        // this.setStyle("-fx-background-color: #F0F8FF;");
+    }
+
+    // public void addButton(Info test){
+    //     Button testing = new Button();
+    //     test.getChildren().add(testing);
+    // }
 }
 
-class Task extends HBox {
+class Info extends HBox {
 
     private Label index;
-    private TextField taskName;
+    private TextField infoName;
+    private TextField infoName2;
     private Button doneButton;
 
     private boolean markedDone;
 
-    Task(String text) {
+    Info(String text) {
         this.setPrefSize(500, 20); // sets size of task
         this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // sets background color of task
         markedDone = false;
 
-        index = new Label();
-        index.setText(""); // create index label
-        index.setPrefSize(40, 20); // set size of Index label
-        index.setTextAlignment(TextAlignment.CENTER); // Set alignment of index label
-        index.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the task
-        this.getChildren().add(index); // add index label to task
+        // index = new Label();
+        // index.setText(""); // create index label
+        // index.setPrefSize(40, 20); // set size of Index label
+        // index.setTextAlignment(TextAlignment.CENTER); // Set alignment of index label
+        // index.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the task
+        // this.getChildren().add(index); // add index label to task
 
-        taskName = new TextField(); // create task name text field
-        taskName.setPrefSize(380, 20); // set size of text field
-        taskName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // set background color of texfield
-        index.setTextAlignment(TextAlignment.LEFT); // set alignment of text field
-        taskName.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the text field
-        this.getChildren().add(taskName); // add textlabel to task
+        infoName = new TextField(); // create task name text field
+        infoName.setPrefSize(380, 20); // set size of text field
+        infoName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // set background color of texfield
+        // index.setTextAlignment(TextAlignment.LEFT); // set alignment of text field
+        infoName.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the text field
+        this.getChildren().add(infoName); // add textlabel to task
+        
+        // doneButton = new Button("Done"); // creates a button for marking the task as done
+        // doneButton.setPrefSize(100, 20);
+        // doneButton.setPrefHeight(Double.MAX_VALUE);
+        // doneButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
 
-        doneButton = new Button("Done"); // creates a button for marking the task as done
-        doneButton.setPrefSize(100, 20);
-        doneButton.setPrefHeight(Double.MAX_VALUE);
-        doneButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
+        // this.getChildren().add(doneButton);
+        infoName.setPromptText(text);
+    }
 
-        this.getChildren().add(doneButton);
-        taskName.setPromptText(text);
+        Info(String text, boolean taskName) {
+        this.setPrefSize(500, 20); // sets size of task
+        this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // sets background color of task
+        markedDone = false;
+
+        // index = new Label();
+        // index.setText(""); // create index label
+        // index.setPrefSize(40, 20); // set size of Index label
+        // index.setTextAlignment(TextAlignment.CENTER); // Set alignment of index label
+        // index.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the task
+        // this.getChildren().add(index); // add index label to task
+
+        infoName = new TextField(); // create task name text field
+        infoName.setPrefSize(380, 20); // set size of text field
+        infoName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // set background color of texfield
+        // index.setTextAlignment(TextAlignment.LEFT); // set alignment of text field
+        infoName.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the text field
+        this.getChildren().add(infoName); // add textlabel to task
+        
+        // doneButton = new Button("Done"); // creates a button for marking the task as done
+        // doneButton.setPrefSize(100, 20);
+        // doneButton.setPrefHeight(Double.MAX_VALUE);
+        // doneButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
+
+        // this.getChildren().add(doneButton);
+        infoName.setPromptText(text);
     }
 
     // public void setTaskIndex(int num) {
@@ -67,8 +125,8 @@ class Task extends HBox {
     // }
     
 
-    public TextField getTaskName() {
-        return this.taskName;
+    public TextField getInfoName() {
+        return this.infoName;
     }
 
     public Button getDoneButton() {
@@ -102,7 +160,7 @@ class Task extends HBox {
 class ContactList extends VBox {
 
     ContactList() {
-        this.setSpacing(5); // sets spacing between tasks
+        this.setSpacing(5); // sets spacing between contacts
         this.setPrefSize(500, 560);
         this.setStyle("-fx-background-color: #F0F8FF;");
     }
@@ -117,71 +175,71 @@ class ContactList extends VBox {
     //     }
     // }
 
-    public void removeCompletedTasks() {
-        this.getChildren().removeIf(task -> task instanceof Task && ((Task) task).isMarkedDone());
-        //this.updateTaskIndices();
-    }
+    // public void removeCompletedTasks() {
+    //     this.getChildren().removeIf(info -> info instanceof Info && ((Info) info).isMarkedDone());
+    //     //this.updateTaskIndices();
+    // }
 
     /*
      * Load tasks from a file called "tasks.txt"
      * Add the tasks to the children of tasklist component
      */
-    public void loadTasks() {
-        BufferedReader reader;
-        try{
-            FileReader fileName = new FileReader("tasks.txt");
-            reader = new BufferedReader(fileName);
-            String line = reader.readLine();
-            while(line != null){
-                Task task = new Task("text");
-                task.getTaskName().setText(line);
-                this.getChildren().add(task);
-                //this.updateTaskIndices();
-                line = reader.readLine();
-            }
+    // public void loadTasks() {
+    //     BufferedReader reader;
+    //     try{
+    //         FileReader fileName = new FileReader("tasks.txt");
+    //         reader = new BufferedReader(fileName);
+    //         String line = reader.readLine();
+    //         while(line != null){
+    //             Info info = new Info("text");
+    //             info.getInfoName().setText(line);
+    //             this.getChildren().add(info);
+    //             //this.updateTaskIndices();
+    //             line = reader.readLine();
+    //         }
 
-            reader.close();
-        }
-        catch(IOException e){
-            System.out.println("There is no file called 'tasks.txt' ");
-        }
-    }
+    //         reader.close();
+    //     }
+    //     catch(IOException e){
+    //         System.out.println("There is no file called 'tasks.txt' ");
+    //     }
+    // }
 
     /*
      * Save tasks to a file called "tasks.txt"
      */
-    public void saveTasks() {
-        try{
-            // File fd = "tasks.txt";
-            File file = new File("tasks.txt");
-            FileWriter output = new FileWriter(file);
-            //Get List of tasks and their task name respectively 
-            for(int i = 0; i < this.getChildren().size();i++){
-                if (this.getChildren().get(i) instanceof Task) {
-                    output.write(((Task) this.getChildren().get(i)).getTaskName().getText());
-                    output.write("\n");
-                }
-            }
-            output.close();
-        }
-        catch(IOException e){
-            System.out.println("Exception is caught!");
-        }   
-    }
+    // public void saveContacts() {
+    //     try{
+    //         // File fd = "tasks.txt";
+    //         File file = new File("tasks.txt");
+    //         FileWriter output = new FileWriter(file);
+    //         //Get List of tasks and their task name respectively 
+    //         for(int i = 0; i < this.getChildren().size();i++){
+    //             if (this.getChildren().get(i) instanceof Info) {
+    //                 output.write(((Info) this.getChildren().get(i)).getInfoName().getText());
+    //                 output.write("\n");
+    //             }
+    //         }
+    //         output.close();
+    //     }
+    //     catch(IOException e){
+    //         System.out.println("Exception is caught!");
+    //     }   
+    // }
 
     /*
-     * Sort the tasks lexicographically
+     * TODO: Need to update sort Contacts (By Name)
      */
-    public void sortTasks() {
+    public void sortContacts() { 
         List<String> lst = new ArrayList<String>();
         for (int i = 0; i < this.getChildren().size();i++){
-            lst.add(((Task)this.getChildren().get(i)).getTaskName().getText());
+            lst.add(((Info)this.getChildren().get(i)).getInfoName().getText());
         }
         Collections.sort(lst); 
         //Sorted List of task Names:
 
         for(int i = 0; i < this.getChildren().size();i++){
-            ((Task)this.getChildren().get(i)).getTaskName().setText(lst.get(i));
+            ((Info)this.getChildren().get(i)).getInfoName().setText(lst.get(i));
         }
     }
 }
@@ -309,28 +367,37 @@ class AppFrame extends BorderPane{
         // Add button functionality
         createButton.setOnAction(e -> {
             // Create a new task
-            Task task = new Task("Name");
+            // Info info = new Info("Name");
+            Contacts contact= new Contacts("Name", "Email", "Phone Number");
             // Add task to tasklist
-            contactList.getChildren().add(task);
+            contactList.getChildren().add(contact);
 
-            Task task2 = new Task("Email");
-            // Add task to tasklist
-            contactList.getChildren().add(task2);
+            /* Contacts Testing for Button
+             * contact.getNameInfo()
+             * 
+             */
+            // contact.
 
-            Task task3 = new Task("Phone Number");
-            // Add task to tasklist
-            contactList.getChildren().add(task3);
 
-            // Add doneButtonToggle to the Done button
-            Button doneButton = task.getDoneButton();
+
+            // Info info2 = new Info("Email");
+            // // Add task to tasklist
+            // contactList.getChildren().add(info2);
+
+            // Info info3 = new Info("Phone Number");
+            // // Add task to tasklist
+            // contactList.getChildren().add(info3);
+
+            // // Add doneButtonToggle to the Done button
+            // Button doneButton = info.getDoneButton();
             
-            doneButton.setOnAction(e1 -> {
-                // Call toggleDone on click
-                task.toggleDone();
-                task2.toggleDone();
-                task3.toggleDone();                
+            // doneButton.setOnAction(e1 -> {
+            //     // Call toggleDone on click
+            //     info.toggleDone();
+            //     info2.toggleDone();
+            //     info3.toggleDone();                
             
-            });
+            // });
             // Update task indices
             //taskList.updateTaskIndices();
         });
@@ -352,12 +419,14 @@ class AppFrame extends BorderPane{
         //         //taskList.updateTaskIndices();
         //     }
         // });
-     updateButton.setOnAction(e -> {
-            contactList.saveTasks();
-        });
-        sortButton.setOnAction(e -> {
-            contactList.sortTasks();
-        });
+        
+    //  updateButton.setOnAction(e -> {
+    //         contactList.saveTasks();
+    //     });
+    //     sortButton.setOnAction(e -> {
+    //         contactList.sortTasks();
+    //     });
+    // }
     }
 }
 
@@ -370,7 +439,7 @@ public class Main extends Application {
         AppFrame root = new AppFrame();
 
         // Set the title of the app
-        primaryStage.setTitle("To Do List");
+        primaryStage.setTitle("Contacts");
         // Create scene of mentioned size with the border pane
         primaryStage.setScene(new Scene(root, 500, 600));
         // Make window non-resizable
