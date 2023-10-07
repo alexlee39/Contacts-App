@@ -51,8 +51,14 @@ class Contacts extends VBox{
 
         // this.setPrefSize(500, 560);
         // this.setStyle("-fx-background-color: #F0F8FF;");
+
     }
 
+    // Method to remove the email and phone number text boxes
+    public void removeInfo() {
+        this.getChildren().remove(2);
+        this.getChildren().remove(1);
+    }
     // public void addButton(Info test){
     //     Button testing = new Button();
     //     test.getChildren().add(testing);
@@ -424,8 +430,12 @@ class AppFrame extends BorderPane{
             Button doneButton = contact.getFirstName().getDoneButton();
             doneButton.setOnAction(e1 -> {
             // Call toggleDone on click
-            contact.getFirstName().toggleDone();
-
+            // contact.getFirstName().toggleDone();
+            
+            // contact.getMail().removeCompletedTasks();
+            contact.removeInfo();
+            
+            });
             /* Contacts Testing for Button
              * contact.getNameInfo()
              * 
