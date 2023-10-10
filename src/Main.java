@@ -24,13 +24,11 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 import java.io.File;
-//hello
 
 class Contacts extends VBox{
     private Info name;
     private Info email;
     private Info phoneNum;
-    private Button test;
     
     Contacts(String name, String email, String phoneNum){
         this.name = new Info(name,true);
@@ -39,19 +37,6 @@ class Contacts extends VBox{
         this.getChildren().add(this.name);
         this.getChildren().add(this.email);
         this.getChildren().add(this.phoneNum);
-
-        // test = new Button("Done"); // creates a button for marking the task as done
-        // test.setPrefSize(100, 20);
-        // test.setPrefHeight(Double.MAX_VALUE);
-        // test.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
-
-        // this.getChildren().add(test);
-
-        // this.setSpacing(5); // sets spacing between contacts
-
-        // this.setPrefSize(500, 560);
-        // this.setStyle("-fx-background-color: #F0F8FF;");
-
     }
 
     // Method to remove the email and phone number text boxes
@@ -60,15 +45,19 @@ class Contacts extends VBox{
         this.getChildren().remove(1);
     }
 
-    public Info getFirstName() {
+    public void showInfo(){
+        this.getChildren().add(email);
+        this.getChildren().add(phoneNum);
+    }
+    public Info getName() {
         return this.name;
     }
 
-    public Info getMail() {
+    public Info getEmail() {
         return this.email;
     }
 
-    public Info getNum() {
+    public Info getPhoneNum() {
         return this.phoneNum;
     }
 
@@ -76,40 +65,11 @@ class Contacts extends VBox{
 
 class Info extends HBox {
 
-    private Label index;
     private TextField infoName;
-    private TextField infoName2;
     private Button doneButton;
-
+    private Button updateButton;
+    private Button deleteButton;
     private boolean markedDone;
-
-    // Info(String text) {
-    //     this.setPrefSize(500, 20); // sets size of task
-    //     this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // sets background color of task
-    //     markedDone = false;
-
-    //     // index = new Label();
-    //     // index.setText(""); // create index label
-    //     // index.setPrefSize(40, 20); // set size of Index label
-    //     // index.setTextAlignment(TextAlignment.CENTER); // Set alignment of index label
-    //     // index.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the task
-    //     // this.getChildren().add(index); // add index label to task
-
-    //     infoName = new TextField(); // create task name text field
-    //     infoName.setPrefSize(380, 20); // set size of text field
-    //     infoName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // set background color of texfield
-    //     // index.setTextAlignment(TextAlignment.LEFT); // set alignment of text field
-    //     infoName.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the text field
-    //     this.getChildren().add(infoName); // add textlabel to task
-        
-    //     // doneButton = new Button("Done"); // creates a button for marking the task as done
-    //     // doneButton.setPrefSize(100, 20);
-    //     // doneButton.setPrefHeight(Double.MAX_VALUE);
-    //     // doneButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
-
-    //     // this.getChildren().add(doneButton);
-    //     infoName.setPromptText(text);
-    // }
 
         Info(String text, boolean taskName) { // TaskName is True if its for name Info, otherwise false(for email and phone Num info)
 
@@ -118,17 +78,9 @@ class Info extends HBox {
             this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // sets background color of task
             markedDone = false;
 
-            // index = new Label();
-            // index.setText(""); // create index label
-            // index.setPrefSize(40, 20); // set size of Index label
-            // index.setTextAlignment(TextAlignment.CENTER); // Set alignment of index label
-            // index.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the task
-            // this.getChildren().add(index); // add index label to task
-
             infoName = new TextField(); // create task name text field
             infoName.setPrefSize(380, 20); // set size of text field
             infoName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // set background color of texfield
-            // index.setTextAlignment(TextAlignment.LEFT); // set alignment of text field
             infoName.setPadding(new Insets(10, 10, 10, 0)); // adds some padding to the text field
             this.getChildren().add(infoName); // add textlabel to task
             
@@ -145,35 +97,15 @@ class Info extends HBox {
             this.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0; -fx-font-weight: bold;"); // sets background color of task
             markedDone = false;
 
-            // index = new Label();
-            // index.setText(""); // create index label
-            // index.setPrefSize(40, 20); // set size of Index label
-            // index.setTextAlignment(TextAlignment.CENTER); // Set alignment of index label
-            // index.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the task
-            // this.getChildren().add(index); // add index label to task
-
             infoName = new TextField(); // create task name text field
             infoName.setPrefSize(380, 20); // set size of text field
             infoName.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // set background color of texfield
-            // index.setTextAlignment(TextAlignment.LEFT); // set alignment of text field
             infoName.setPadding(new Insets(10, 0, 10, 0)); // adds some padding to the text field
             this.getChildren().add(infoName); // add textlabel to task
-            
-            // doneButton = new Button("Done"); // creates a button for marking the task as done
-            // doneButton.setPrefSize(100, 20);
-            // doneButton.setPrefHeight(Double.MAX_VALUE);
-            // doneButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
-
-            // this.getChildren().add(doneButton);
             infoName.setPromptText(text);
         }
     }
 
-    // public void setTaskIndex(int num) {
-    //     this.index.setText(num + ""); // num to String
-    //     this.taskName.setPromptText("Task " + num);
-        
-    // }
     
     public TextField getInfoName() {
         return this.infoName;
@@ -183,8 +115,55 @@ class Info extends HBox {
         return this.doneButton;
     }
 
+    public Button getUpdateButton(){
+        return this.updateButton;
+    }
+
+    public Button getDeleteButton(){
+        return this.deleteButton;
+    }
+
     public boolean isMarkedDone() {
         return this.markedDone;
+    }
+
+    /* Remove Done Button from Info Object
+     * 
+     */
+    public void removeDoneButton(){
+        this.getChildren().remove(doneButton);
+        this.infoName.setEditable(false);
+    }
+
+    /* Adds Update and Delete Button 
+     * 
+     */
+    public void addUpdAndDelButton(){
+        this.updateButton = new Button("Update");
+        this.updateButton.setPrefSize(100, 20);
+        this.updateButton.setPrefHeight(Double.MAX_VALUE);
+        this.updateButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
+
+        this.deleteButton = new Button("Delete");
+        this.deleteButton.setPrefSize(100, 20);
+        this.deleteButton.setPrefHeight(Double.MAX_VALUE);
+        this.deleteButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
+
+        this.getChildren().add(this.updateButton);
+        this.getChildren().add(this.deleteButton);
+
+    }
+
+    /* Removes Update and Delete Button and 
+     * replaces it with Done Button: (Invoked
+     * when Update Button is created)
+     * 
+     */
+    public void replaceWithDone(){
+        infoName.setEditable(true);
+        this.getChildren().remove(deleteButton);
+        this.getChildren().remove(updateButton);
+        this.getChildren().add(doneButton);
     }
 
     public void toggleDone() {
@@ -369,10 +348,10 @@ class AppFrame extends BorderPane{
     private ScrollPane scrollBar;
 
     private Button createButton;
-    private Button deleteButton;
-    private Button readButton;
-    private Button updateButton;
-    private Button sortButton;
+    // private Button deleteButton;
+    // private Button readButton;
+    // private Button updateButton;
+    // private Button sortButton;
 
     AppFrame()
     {
@@ -404,9 +383,9 @@ class AppFrame extends BorderPane{
         // Initialise Button Variables through the getters in Footer
         createButton = footer.getCreateButton();
         // clearButton = footer.getDeleteButton();
-        readButton = footer.getReadButton();
-        updateButton = footer.getUpdateButton();
-        sortButton = footer.getSortButton();
+        // readButton = footer.getReadButton();
+        // updateButton = footer.getUpdateButton();
+        // sortButton = footer.getSortButton();
         // Call Event Listeners for the Buttons
         addListeners();
     }
@@ -416,22 +395,28 @@ class AppFrame extends BorderPane{
 
         // Add button functionality
         createButton.setOnAction(e -> {
-            // Create a new task
-            // Info info = new Info("Name");
             Contacts contact = new Contacts("Name", "Email", "Phone Number");
-            // Add task to tasklist
             contactList.getChildren().add(contact);
 
-            // Add doneButtonToggle to the Done button
-            Button doneButton = contact.getFirstName().getDoneButton();
-            doneButton.setOnAction(e1 -> {
-            // Call toggleDone on click
-            // contact.getFirstName().toggleDone();
-            
-            // contact.getMail().removeCompletedTasks();
-            contact.removeInfo();
-            
+            Button doneButton = contact.getName().getDoneButton();
+                doneButton.setOnAction(e1 -> {
+                contact.removeInfo();
+                contact.getName().removeDoneButton();
+                contact.getName().addUpdAndDelButton();
+                Button updateButton = contact.getName().getUpdateButton();
+                Button deleteButton = contact.getName().getDeleteButton();   
+
+                updateButton.setOnAction(e2 -> {
+                    contact.showInfo();
+                    contact.getName().replaceWithDone();
+                });
+
+                deleteButton.setOnAction(e3 -> {
+                    contactList.getChildren().remove(contact);
+                });
             });
+
+
             /* Contacts Testing for Button
              * contact.getNameInfo()
              * 
