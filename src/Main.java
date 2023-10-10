@@ -29,14 +29,27 @@ class Contacts extends VBox{
     private Info name;
     private Info email;
     private Info phoneNum;
+    private Button uploadButton;
+    private ImageView imageView;
+    private FileChooser fileChooser;
+    private Stage primaryStage;
+    private boolean read;
     
-    Contacts(String name, String email, String phoneNum){
+    Contacts(String name, String email, String phoneNum, Stage stage, ImageView img, FileChooser file){
         this.name = new Info(name,true);
         this.email = new Info(email,false);
         this.phoneNum = new Info(phoneNum,false);
         this.getChildren().add(this.name);
         this.getChildren().add(this.email);
         this.getChildren().add(this.phoneNum);
+
+        //Image Stuff
+        // this.uploadButton = new Button("Upload Image");
+        primaryStage = stage;
+        imageView = img;
+        fileChooser = file;
+        read = false;
+        // this.getChildren().add(uploadButton);
     }
 
     // Method to remove the email and phone number text boxes
@@ -59,6 +72,52 @@ class Contacts extends VBox{
 
     public Info getPhoneNum() {
         return this.phoneNum;
+    }
+
+    public Button getUploadButton(){
+        return this.uploadButton;
+    }
+
+    public void removeUploadButton(){
+        this.getChildren().remove(uploadButton);
+    }
+
+    public void setReadFunction(){
+        if (read == false){
+            if (!this.getChildren().contains(email)){
+                this.getChildren().add(email);
+                this.getChildren().add(phoneNum);
+            }
+            this.getName().removeButtons();
+            read = true;
+        }
+        else{
+            this.getName().setUnread();
+            read = false;
+        }
+    }
+
+
+    public void uploadImage(){
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
+        File selectedFile = fileChooser.showOpenDialog(primaryStage);
+        if (selectedFile != null) {
+            Image image = new Image(selectedFile.toURI().toString());
+
+            imageView.setImage(image);
+            imageView.setFitHeight(200);
+            imageView.setFitWidth(200);
+            imageView.setPreserveRatio(true);
+            // Resize the window to fit the image
+            // primaryStage.setWidth(image.getWidth() + 100);
+            // primaryStage.setHeight(image.getHeight() + 100);
+
+            // primaryStage.setWidth(200);
+            // primaryStage.setHeight(200);
+            this.getChildren().add(imageView);
+            this.getChildren().remove(uploadButton);
+
+        }
     }
 
 }
@@ -165,6 +224,46 @@ class Info extends HBox {
         this.getChildren().remove(updateButton);
         this.getChildren().add(doneButton);
     }
+
+    public void removeButtons(){
+        infoName.setEditable(false);
+        if (doneButton != null){
+            this.getChildren().remove(doneButton);
+        }
+
+        if (deleteButton != null){
+            this.getChildren().remove(deleteButton);
+        }
+
+        if (updateButton != null){
+            this.getChildren().remove(updateButton);
+        }
+    }
+
+    public void setUnread(){
+        infoName.setEditable(true);
+        if (updateButton != null && deleteButton != null){
+            this.getChildren().add(updateButton);
+            this.getChildren().add(deleteButton);
+        }
+        else{
+            this.updateButton = new Button("Update");
+            this.updateButton.setPrefSize(100, 20);
+            this.updateButton.setPrefHeight(Double.MAX_VALUE);
+            this.updateButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
+
+            this.deleteButton = new Button("Delete");
+            this.deleteButton.setPrefSize(100, 20);
+            this.deleteButton.setPrefHeight(Double.MAX_VALUE);
+            this.deleteButton.setStyle("-fx-background-color: #DAE5EA; -fx-border-width: 0;"); // sets style of button
+
+            this.getChildren().add(this.updateButton);
+            this.getChildren().add(this.deleteButton);
+        }
+
+
+    }
+
 
     public void toggleDone() {
         
@@ -281,6 +380,7 @@ class Footer extends HBox {
     private Button updateButton;
     private Button sortButton;
 
+
     Footer() {
         this.setPrefSize(500, 60);
         this.setStyle("-fx-background-color: #F0F8FF;");
@@ -349,12 +449,18 @@ class AppFrame extends BorderPane{
 
     private Button createButton;
     // private Button deleteButton;
-    // private Button readButton;
+    private Button readButton;
     // private Button updateButton;
     // private Button sortButton;
+    private Stage primaryStage;
+    private ImageView imageView;
+    private FileChooser fileChooser;
 
-    AppFrame()
+    AppFrame(Stage primaryStage, ImageView imageView, FileChooser fileChooser)
     {
+        this.primaryStage = primaryStage;
+        this.imageView = imageView;
+        this.fileChooser = fileChooser;
         // Initialise the header Object
         header = new Header();
 
@@ -383,7 +489,7 @@ class AppFrame extends BorderPane{
         // Initialise Button Variables through the getters in Footer
         createButton = footer.getCreateButton();
         // clearButton = footer.getDeleteButton();
-        // readButton = footer.getReadButton();
+        readButton = footer.getReadButton();
         // updateButton = footer.getUpdateButton();
         // sortButton = footer.getSortButton();
         // Call Event Listeners for the Buttons
@@ -395,10 +501,11 @@ class AppFrame extends BorderPane{
 
         // Add button functionality
         createButton.setOnAction(e -> {
-            Contacts contact = new Contacts("Name", "Email", "Phone Number");
+            Contacts contact = new Contacts("Name", "Email", "Phone Number", primaryStage, imageView, fileChooser);
             contactList.getChildren().add(contact);
 
             Button doneButton = contact.getName().getDoneButton();
+            Button imageButton = contact.getUploadButton();
                 doneButton.setOnAction(e1 -> {
                 contact.removeInfo();
                 contact.getName().removeDoneButton();
@@ -416,34 +523,67 @@ class AppFrame extends BorderPane{
                 });
             });
 
-
-            /* Contacts Testing for Button
-             * contact.getNameInfo()
-             * 
-             */
-            // contact.
-
-            // Info info2 = new Info("Email");
-            // // Add task to tasklist
-            // contactList.getChildren().add(info2);
-
-            // Info info3 = new Info("Phone Number");
-            // // Add task to tasklist
-            // contactList.getChildren().add(info3);
-
-            
-            
-            // doneButton.setOnAction(e1 -> {
-            //     // Call toggleDone on click
-            //     info.toggleDone();
-            //     info2.toggleDone();
-            //     info3.toggleDone();                
-            
+            // imageButton.setOnAction(e4 -> {
+            //     contact.uploadImage();
             // });
-            // Update task indices
-            //taskList.updateTaskIndices();
         });
-        
+        readButton.setOnAction(e -> {
+            for(int i = 0; i < contactList.getChildren().size();i++){
+                ((Contacts) contactList.getChildren().get(i)).setReadFunction();
+
+                // Contacts contact = ((Contacts) contactList.getChildren().get(i));
+                // Button updateButton = contact.getName().getUpdateButton();
+                // Button deleteButton = contact.getName().getDeleteButton();   
+
+                // updateButton.setOnAction(e2 -> {
+                //     contact.showInfo();
+                //     contact.getName().replaceWithDone();
+                // });
+
+                // deleteButton.setOnAction(e3 -> {
+                //     contactList.getChildren().remove(contact);
+                // });
+            }
+
+
+        });
+        //Image Stuff
+        //     fileChooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
+        //     File selectedFile = fileChooser.showOpenDialog();
+
+
+        //     if (selectedFile != null) {
+        //         Image image = new Image(selectedFile.toURI().toString());
+
+        //         /*
+        //          * TODO6: Set the selected image in imageView i.e. display the image.
+        //          * Hint: To implement this, you can use the setImage() method of ImageView and pass the selected image as an argument.
+        //          */
+        //         imageView.setImage(image);
+        //         // Resize the window to fit the image
+        //         primaryStage.setWidth(image.getWidth() + 100);
+        //         primaryStage.setHeight(image.getHeight() + 100);
+        //     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // Clear finished tasks
         // clearButton.setOnAction(e -> {
         //     taskList.removeCompletedTasks();
@@ -484,7 +624,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         // Setting the Layout of the Window- Should contain a Header, Footer and the TaskList
-        AppFrame root = new AppFrame();
+        AppFrame root = new AppFrame(primaryStage, imageView, fileChooser);
 
         // Set the title of the app
         primaryStage.setTitle("Contacts");
