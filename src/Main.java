@@ -27,18 +27,18 @@ import java.io.File;
 //hello
 
 class Contacts extends VBox{
-    private Info firstName;
-    private Info mail;
-    private Info num;
+    private Info name;
+    private Info email;
+    private Info phoneNum;
     private Button test;
     
     Contacts(String name, String email, String phoneNum){
-        firstName = new Info(name,true);
-        mail = new Info(email,false);
-        num = new Info(phoneNum,false);
-        this.getChildren().add(firstName);
-        this.getChildren().add(mail);
-        this.getChildren().add(num);
+        this.name = new Info(name,true);
+        this.email = new Info(email,false);
+        this.phoneNum = new Info(phoneNum,false);
+        this.getChildren().add(this.name);
+        this.getChildren().add(this.email);
+        this.getChildren().add(this.phoneNum);
 
         // test = new Button("Done"); // creates a button for marking the task as done
         // test.setPrefSize(100, 20);
@@ -59,21 +59,17 @@ class Contacts extends VBox{
         this.getChildren().remove(2);
         this.getChildren().remove(1);
     }
-    // public void addButton(Info test){
-    //     Button testing = new Button();
-    //     test.getChildren().add(testing);
-    // }
 
     public Info getFirstName() {
-        return this.firstName;
+        return this.name;
     }
 
     public Info getMail() {
-        return this.mail;
+        return this.email;
     }
 
     public Info getNum() {
-        return this.num;
+        return this.phoneNum;
     }
 
 }
