@@ -44,23 +44,26 @@ class Contacts extends VBox{
         this.getChildren().add(this.phoneNum);
 
         //Image Stuff
-        // this.uploadButton = new Button("Upload Image");
+        this.uploadButton = new Button("Upload Image");
         primaryStage = stage;
         imageView = img;
         fileChooser = file;
         read = false;
-        // this.getChildren().add(uploadButton);
+        this.getChildren().add(uploadButton);
     }
 
     // Method to remove the email and phone number text boxes
     public void removeInfo() {
+        this.getChildren().remove(3);
         this.getChildren().remove(2);
         this.getChildren().remove(1);
+
     }
 
     public void showInfo(){
         this.getChildren().add(email);
         this.getChildren().add(phoneNum);
+        this.getChildren().add(imageView);
     }
     public Info getName() {
         return this.name;
@@ -506,7 +509,7 @@ class AppFrame extends BorderPane{
 
             Button doneButton = contact.getName().getDoneButton();
             Button imageButton = contact.getUploadButton();
-                doneButton.setOnAction(e1 -> {
+            doneButton.setOnAction(e1 -> {
                 contact.removeInfo();
                 contact.getName().removeDoneButton();
                 contact.getName().addUpdAndDelButton();
@@ -523,30 +526,32 @@ class AppFrame extends BorderPane{
                 });
             });
 
-            // imageButton.setOnAction(e4 -> {
-            //     contact.uploadImage();
-            // });
+            imageButton.setOnAction(e4 -> {
+                contact.uploadImage();
+            });
         });
-        readButton.setOnAction(e -> {
-            for(int i = 0; i < contactList.getChildren().size();i++){
-                ((Contacts) contactList.getChildren().get(i)).setReadFunction();
-
-                // Contacts contact = ((Contacts) contactList.getChildren().get(i));
-                // Button updateButton = contact.getName().getUpdateButton();
-                // Button deleteButton = contact.getName().getDeleteButton();   
-
-                // updateButton.setOnAction(e2 -> {
-                //     contact.showInfo();
-                //     contact.getName().replaceWithDone();
-                // });
-
-                // deleteButton.setOnAction(e3 -> {
-                //     contactList.getChildren().remove(contact);
-                // });
-            }
 
 
-        });
+        // readButton.setOnAction(e -> {
+        //     for(int i = 0; i < contactList.getChildren().size();i++){
+        //         ((Contacts) contactList.getChildren().get(i)).setReadFunction();
+
+        //         // Contacts contact = ((Contacts) contactList.getChildren().get(i));
+        //         // Button updateButton = contact.getName().getUpdateButton();
+        //         // Button deleteButton = contact.getName().getDeleteButton();   
+
+        //         // updateButton.setOnAction(e2 -> {
+        //         //     contact.showInfo();
+        //         //     contact.getName().replaceWithDone();
+        //         // });
+
+        //         // deleteButton.setOnAction(e3 -> {
+        //         //     contactList.getChildren().remove(contact);
+        //         // });
+        //     }
+
+
+        // });
         //Image Stuff
         //     fileChooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
         //     File selectedFile = fileChooser.showOpenDialog();
