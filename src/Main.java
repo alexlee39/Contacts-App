@@ -97,10 +97,10 @@ class Contacts extends VBox{
 
     public void setReadFunction(){
         if (read == false){
-            if (!this.getChildren().contains(email)){
-                this.getChildren().add(email);
-                this.getChildren().add(phoneNum);
-            }
+            // if (!this.getChildren().contains(email)){
+            //     this.getChildren().add(email);
+            //     this.getChildren().add(phoneNum);
+            // }
             this.getName().removeButtons();
             read = true;
         }
@@ -532,7 +532,7 @@ class AppFrame extends BorderPane{
                 // this.editOneContact = false;
                 createButton.setDisable(true);
                 for(int i = 0; i < contactList.getChildren().size();i++){
-                    if(contactList != null && updateButton != null){
+                    if(contactList != null && ((Contacts)contactList.getChildren().get(i)).getName().getUpdateButton() != null){
                         ((Contacts)contactList.getChildren().get(i)).getName().getUpdateButton().setDisable(true);
                     }
                 }
@@ -579,7 +579,12 @@ class AppFrame extends BorderPane{
         // }
 
 
-
+        /* TODO: We can only click 'Read' when we aren't editing any contacts currently 
+         * TODO: Fix Functionality of Read: (ie.) Add extra Info when we disable buttons
+         * TODO: Add Sorting (ContactList)
+         * TODO: Export data to CSV File
+         * TODO:(Both of us: Later Stages) Clean up code???
+         */
         readButton.setOnAction(e -> {
             for(int i = 0; i < contactList.getChildren().size();i++){
                 ((Contacts) contactList.getChildren().get(i)).setReadFunction();
