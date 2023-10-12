@@ -31,6 +31,7 @@ class Contacts extends VBox{
     private Info phoneNum;
     private Button uploadButton;
     private ImageView imageView;
+    private Image image;
     private FileChooser fileChooser;
     private Stage primaryStage;
     private boolean read;
@@ -63,7 +64,18 @@ class Contacts extends VBox{
     public void showInfo(){
         this.getChildren().add(email);
         this.getChildren().add(phoneNum);
-        this.getChildren().add(imageView);
+        
+        if(image != null){
+            imageView.setImage(this.image);
+            imageView.setFitHeight(200);
+            imageView.setFitWidth(200);
+            imageView.setPreserveRatio(true);
+            this.getChildren().add(imageView);
+        }
+        else{
+            this.getChildren().add(uploadButton);
+        }
+
     }
     public Info getName() {
         return this.name;
@@ -106,7 +118,7 @@ class Contacts extends VBox{
         File selectedFile = fileChooser.showOpenDialog(primaryStage);
         if (selectedFile != null) {
             Image image = new Image(selectedFile.toURI().toString());
-
+            this.image = image;
             imageView.setImage(image);
             imageView.setFitHeight(200);
             imageView.setFitWidth(200);
@@ -501,7 +513,7 @@ class AppFrame extends BorderPane{
 
     public void addListeners()
     {
-
+        boolean create = false;
         // Add button functionality
         createButton.setOnAction(e -> {
             Contacts contact = new Contacts("Name", "Email", "Phone Number", primaryStage, imageView, fileChooser);
@@ -532,26 +544,26 @@ class AppFrame extends BorderPane{
         });
 
 
-        // readButton.setOnAction(e -> {
-        //     for(int i = 0; i < contactList.getChildren().size();i++){
-        //         ((Contacts) contactList.getChildren().get(i)).setReadFunction();
+        readButton.setOnAction(e -> {
+            for(int i = 0; i < contactList.getChildren().size();i++){
+                ((Contacts) contactList.getChildren().get(i)).setReadFunction();
 
-        //         // Contacts contact = ((Contacts) contactList.getChildren().get(i));
-        //         // Button updateButton = contact.getName().getUpdateButton();
-        //         // Button deleteButton = contact.getName().getDeleteButton();   
+                // Contacts contact = ((Contacts) contactList.getChildren().get(i));
+                // Button updateButton = contact.getName().getUpdateButton();
+                // Button deleteButton = contact.getName().getDeleteButton();   
 
-        //         // updateButton.setOnAction(e2 -> {
-        //         //     contact.showInfo();
-        //         //     contact.getName().replaceWithDone();
-        //         // });
+                // updateButton.setOnAction(e2 -> {
+                //     contact.showInfo();
+                //     contact.getName().replaceWithDone();
+                // });
 
-        //         // deleteButton.setOnAction(e3 -> {
-        //         //     contactList.getChildren().remove(contact);
-        //         // });
-        //     }
+                // deleteButton.setOnAction(e3 -> {
+                //     contactList.getChildren().remove(contact);
+                // });
+            }
 
 
-        // });
+        });
         //Image Stuff
         //     fileChooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
         //     File selectedFile = fileChooser.showOpenDialog();
