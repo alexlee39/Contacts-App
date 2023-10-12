@@ -58,13 +58,11 @@ class Contacts extends VBox{
         this.getChildren().remove(3);
         this.getChildren().remove(2);
         this.getChildren().remove(1);
-
     }
 
     public void showInfo(){
         this.getChildren().add(email);
         this.getChildren().add(phoneNum);
-        
         if(image != null){
             imageView.setImage(this.image);
             imageView.setFitHeight(200);
@@ -465,11 +463,12 @@ class AppFrame extends BorderPane{
     private Button createButton;
     // private Button deleteButton;
     private Button readButton;
-    // private Button updateButton;
+    private Button updateButton;
     // private Button sortButton;
     private Stage primaryStage;
     private ImageView imageView;
     private FileChooser fileChooser;
+    private boolean editOneContact; // True if we can edit(ie not editing any other contact), false otherwise
 
     AppFrame(Stage primaryStage, ImageView imageView, FileChooser fileChooser)
     {
@@ -507,41 +506,78 @@ class AppFrame extends BorderPane{
         readButton = footer.getReadButton();
         // updateButton = footer.getUpdateButton();
         // sortButton = footer.getSortButton();
+        // updateButton = null;
+        this.editOneContact = true;
+
         // Call Event Listeners for the Buttons
         addListeners();
     }
 
     public void addListeners()
     {
-        boolean create = false;
-        // Add button functionality
-        createButton.setOnAction(e -> {
-            Contacts contact = new Contacts("Name", "Email", "Phone Number", primaryStage, imageView, fileChooser);
-            contactList.getChildren().add(contact);
+        // // Add button functionality
+        // for(int i = 0; i < contactList.getChildren().size();i++){
+        //     if(((Contacts)contactList.getChildren().get(i)).getName().getDoneButton()!= null){
+        //         create = false;
+        //     }
+        // }
+        // if(create == true){
 
-            Button doneButton = contact.getName().getDoneButton();
-            Button imageButton = contact.getUploadButton();
-            doneButton.setOnAction(e1 -> {
-                contact.removeInfo();
-                contact.getName().removeDoneButton();
-                contact.getName().addUpdAndDelButton();
-                Button updateButton = contact.getName().getUpdateButton();
-                Button deleteButton = contact.getName().getDeleteButton();   
+            createButton.setOnAction(e -> {
+                // System.out.println(this.editOneContact);
+                // if(this.editOneContact == false){ 
+                //     createButton.setDisable(true); // Disable the contact button
+                    
+                // }
+                // this.editOneContact = false;
+                createButton.setDisable(true);
+                for(int i = 0; i < contactList.getChildren().size();i++){
+                    if(contactList != null && updateButton != null){
+                        ((Contacts)contactList.getChildren().get(i)).getName().getUpdateButton().setDisable(true);
+                    }
+                }
 
-                updateButton.setOnAction(e2 -> {
-                    contact.showInfo();
-                    contact.getName().replaceWithDone();
+
+                Contacts contact = new Contacts("Name", "Email", "Phone Number", primaryStage, imageView, fileChooser);
+                contactList.getChildren().add(contact);
+                Button doneButton = contact.getName().getDoneButton();
+                Button imageButton = contact.getUploadButton();
+
+                doneButton.setOnAction(e1 -> {
+                    createButton.setDisable(false);
+                    for(int i = 0; i < contactList.getChildren().size();i++){
+                        if (((Contacts)contactList.getChildren().get(i)).getName().getUpdateButton() != null){
+                            ((Contacts)contactList.getChildren().get(i)).getName().getUpdateButton().setDisable(false);
+                        }
+                    }
+                    contact.removeInfo();
+                    contact.getName().removeDoneButton();
+                    contact.getName().addUpdAndDelButton();
+                    Button updateButton = contact.getName().getUpdateButton();
+                    Button deleteButton = contact.getName().getDeleteButton();  
+
+                    updateButton.setOnAction(e2 -> {
+                        // this.editOneContact = false;
+                        createButton.setDisable(true);
+                        //Disable ALL Update Buttons:
+                        for(int i = 0; i < contactList.getChildren().size();i++){
+                            ((Contacts)contactList.getChildren().get(i)).getName().getUpdateButton().setDisable(true);
+                        }
+                        contact.showInfo();
+                        contact.getName().replaceWithDone();
+                    });
+
+                    deleteButton.setOnAction(e3 -> {
+                        contactList.getChildren().remove(contact);
+                    });
                 });
 
-                deleteButton.setOnAction(e3 -> {
-                    contactList.getChildren().remove(contact);
+                imageButton.setOnAction(e4 -> {
+                    contact.uploadImage();
                 });
             });
+        // }
 
-            imageButton.setOnAction(e4 -> {
-                contact.uploadImage();
-            });
-        });
 
 
         readButton.setOnAction(e -> {
