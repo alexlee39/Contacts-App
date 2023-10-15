@@ -24,8 +24,9 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 import java.io.File;
+import java.util.Comparator;
 
-class Contacts extends VBox{
+class Contacts extends VBox {
     private Info name;
     private Info email;
     private Info phoneNum;
@@ -54,25 +55,42 @@ class Contacts extends VBox{
     }
 
     // Method to remove the email and phone number text boxes
+    //Index 4: Image, 3: Upload Button, 2: Phone Num, 1: Email, 0: Name
     public void removeInfo() {
-        this.getChildren().remove(3);
-        this.getChildren().remove(2);
-        this.getChildren().remove(1);
+        this.getChildren().clear();
+        this.getChildren().add(this.name);
+        // if(this.getChildren().size() == 5){
+        //     this.getChildren().removeAll();
+        //     this.getChildren().add(this.name);
+        //     return;
+        // }
+
+        // if(image == null){
+        //     this.getChildren().remove(this.getChildren().size()-1);
+        // }
+        // if(phoneNum == null){
+        //     this.getChildren().remove(this.getChildren().size()-1);
+        // }
+        // if(email == null){
+        //     this.getChildren().remove(this.getChildren().size()-1);
+
+        // }
     }
 
     public void showInfo(){
         this.getChildren().add(email);
         this.getChildren().add(phoneNum);
-        if(image != null){
+        this.getChildren().add(uploadButton);
+        if(this.image != null){
             imageView.setImage(this.image);
             imageView.setFitHeight(200);
             imageView.setFitWidth(200);
             imageView.setPreserveRatio(true);
             this.getChildren().add(imageView);
         }
-        else{
-            this.getChildren().add(uploadButton);
-        }
+        // else{
+        //     this.getChildren().add(uploadButton);
+        // }
 
     }
     public Info getName() {
@@ -95,6 +113,14 @@ class Contacts extends VBox{
         this.getChildren().remove(uploadButton);
     }
 
+    public boolean hasImage(){
+        if (this.image != null){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     public void setReadFunction(){
         if (read == false){
             // if (!this.getChildren().contains(email)){
@@ -116,23 +142,41 @@ class Contacts extends VBox{
         File selectedFile = fileChooser.showOpenDialog(primaryStage);
         if (selectedFile != null) {
             Image image = new Image(selectedFile.toURI().toString());
-            this.image = image;
             imageView.setImage(image);
             imageView.setFitHeight(200);
             imageView.setFitWidth(200);
             imageView.setPreserveRatio(true);
-            // Resize the window to fit the image
-            // primaryStage.setWidth(image.getWidth() + 100);
-            // primaryStage.setHeight(image.getHeight() + 100);
 
-            // primaryStage.setWidth(200);
-            // primaryStage.setHeight(200);
-            this.getChildren().add(imageView);
-            this.getChildren().remove(uploadButton);
+            if(!this.getChildren().contains(imageView)){
+                this.getChildren().add(imageView);
+            }
+            // if(this.image!= null){
+            //     this.getChildren().add(imageView);
+            // }
+            // else{
+            //     this.getChildren().get(this.getChildren().size()-1).;
+            // }
+            this.image = image;
+            
+            // this.getChildren().add(imageView);
+            // this.getChildren().remove(uploadButton);
 
         }
     }
 
+
+    // @Override
+    // public int compareTo(Contacts o) {
+    //     return ((String)this.name.getInfoName().getText()).compareTo((String)o.getName().getInfoName().getText());
+    // }
+
+}
+
+class sortContactByName implements Comparator<Contacts> {
+    @Override
+    public int compare(Contacts c1, Contacts c2) {
+        return ((String)c1.getName().getInfoName().getText()).compareTo((String)c2.getName().getInfoName().getText());
+    }
 }
 
 class Info extends HBox {
@@ -298,13 +342,14 @@ class Info extends HBox {
 
 }
 
-class ContactList extends VBox {
+class ContactList extends VBox{ // implements Comparable<Contacts>
 
     ContactList() {
         this.setSpacing(5); // sets spacing between contacts
         this.setPrefSize(500, 560);
         this.setStyle("-fx-background-color: #F0F8FF;");
     }
+
 
     // public void updateTaskIndices() {
     //     int index = 1;
@@ -368,21 +413,44 @@ class ContactList extends VBox {
     //     }   
     // }
 
+    public void clearAll(){
+        this.getChildren().clear();
+    }
     /*
      * TODO: Need to update sort Contacts (By Name)
      */
     public void sortContacts() { 
-        List<String> lst = new ArrayList<String>();
-        for (int i = 0; i < this.getChildren().size();i++){
-            lst.add(((Info)this.getChildren().get(i)).getInfoName().getText());
-        }
-        Collections.sort(lst); 
-        //Sorted List of task Names:
-
+        // Collections.sort((Contacts)this.getChildren(),new sortContactByName());
+        List<Contacts> lst = new ArrayList<Contacts>();
         for(int i = 0; i < this.getChildren().size();i++){
-            ((Info)this.getChildren().get(i)).getInfoName().setText(lst.get(i));
+            Contacts currContact = ((Contacts) this.getChildren().get(i));
+            lst.add(currContact);
         }
+
+        Collections.sort(lst,new sortContactByName());
+        // this.getChildren() = lst;
+
+        this.getChildren().clear();
+        for(int i = 0; i < lst.size();i++){
+            this.getChildren().add((Node)lst.get(i));
+        }
+        // print()
+        // for (int i = 0; i < this.getChildren().size();i++){
+        //     lst.add(((Info)this.getChildren().get(i)).getInfoName().getText());
+        // }
+        // Collections.sort(lst); 
+        // //Sorted List of task Names:
+
+        // for(int i = 0; i < this.getChildren().size();i++){
+        //     ((Info)this.getChildren().get(i)).getInfoName().setText(lst.get(i));
+        // }
     }
+
+    // @Override
+    // public int compareTo(Contacts x1) {
+    //     // return x1.getName() > ;
+    //     // return 0;
+    // }
 }
 
 class Footer extends HBox {
@@ -410,12 +478,14 @@ class Footer extends HBox {
         // Create readButton, updateButton and sortButton to the footer
         readButton = new Button("READ");
         readButton.setStyle(defaultButtonStyle);
-        updateButton = new Button("UPDATE");
-        updateButton.setStyle(defaultButtonStyle);
+        // updateButton = new Button("UPDATE");
+        // updateButton.setStyle(defaultButtonStyle);
         sortButton = new Button("Sort Tasks (By Name)");
         sortButton.setStyle(defaultButtonStyle);
 
-        this.getChildren().addAll(createButton,readButton,updateButton,sortButton); // adding buttons to footer
+        deleteButton = new Button("DELETE (ALL)");
+        deleteButton.setStyle(defaultButtonStyle);
+        this.getChildren().addAll(createButton,readButton,sortButton,deleteButton); // adding buttons to footer
         this.setAlignment(Pos.CENTER); // aligning the buttons to center
     }
 
@@ -461,14 +531,12 @@ class AppFrame extends BorderPane{
     private ScrollPane scrollBar;
 
     private Button createButton;
-    // private Button deleteButton;
+    private Button deleteButton;
     private Button readButton;
-    private Button updateButton;
-    // private Button sortButton;
+    private Button sortButton;
     private Stage primaryStage;
     private ImageView imageView;
     private FileChooser fileChooser;
-    private boolean editOneContact; // True if we can edit(ie not editing any other contact), false otherwise
 
     AppFrame(Stage primaryStage, ImageView imageView, FileChooser fileChooser)
     {
@@ -505,9 +573,9 @@ class AppFrame extends BorderPane{
         // clearButton = footer.getDeleteButton();
         readButton = footer.getReadButton();
         // updateButton = footer.getUpdateButton();
-        // sortButton = footer.getSortButton();
+        sortButton = footer.getSortButton();
         // updateButton = null;
-        this.editOneContact = true;
+        deleteButton = footer.getDeleteButton();
 
         // Call Event Listeners for the Buttons
         addListeners();
@@ -524,16 +592,12 @@ class AppFrame extends BorderPane{
         // if(create == true){
 
             createButton.setOnAction(e -> {
-                // System.out.println(this.editOneContact);
-                // if(this.editOneContact == false){ 
-                //     createButton.setDisable(true); // Disable the contact button
-                    
-                // }
-                // this.editOneContact = false;
                 createButton.setDisable(true);
+                readButton.setDisable(true);
                 for(int i = 0; i < contactList.getChildren().size();i++){
-                    if(contactList != null && ((Contacts)contactList.getChildren().get(i)).getName().getUpdateButton() != null){
-                        ((Contacts)contactList.getChildren().get(i)).getName().getUpdateButton().setDisable(true);
+                    Contacts curr = ((Contacts)contactList.getChildren().get(i));
+                    if(contactList != null && curr.getName().getUpdateButton() != null){
+                        curr.getName().getUpdateButton().setDisable(true);
                     }
                 }
 
@@ -544,10 +608,15 @@ class AppFrame extends BorderPane{
                 Button imageButton = contact.getUploadButton();
 
                 doneButton.setOnAction(e1 -> {
+                    if(contact.hasImage()==true){
+                        contact.getUploadButton().setText("Change Image");
+                    }
                     createButton.setDisable(false);
+                    readButton.setDisable(false);
                     for(int i = 0; i < contactList.getChildren().size();i++){
-                        if (((Contacts)contactList.getChildren().get(i)).getName().getUpdateButton() != null){
-                            ((Contacts)contactList.getChildren().get(i)).getName().getUpdateButton().setDisable(false);
+                        Contacts curr = ((Contacts)contactList.getChildren().get(i));
+                        if (curr.getName().getUpdateButton() != null){
+                            curr.getName().getUpdateButton().setDisable(false);
                         }
                     }
                     contact.removeInfo();
@@ -557,11 +626,12 @@ class AppFrame extends BorderPane{
                     Button deleteButton = contact.getName().getDeleteButton();  
 
                     updateButton.setOnAction(e2 -> {
-                        // this.editOneContact = false;
                         createButton.setDisable(true);
+                        readButton.setDisable(true);
                         //Disable ALL Update Buttons:
                         for(int i = 0; i < contactList.getChildren().size();i++){
-                            ((Contacts)contactList.getChildren().get(i)).getName().getUpdateButton().setDisable(true);
+                            Contacts curr = ((Contacts)contactList.getChildren().get(i));
+                            curr.getName().getUpdateButton().setDisable(true);
                         }
                         contact.showInfo();
                         contact.getName().replaceWithDone();
@@ -579,15 +649,16 @@ class AppFrame extends BorderPane{
         // }
 
 
-        /* TODO: We can only click 'Read' when we aren't editing any contacts currently 
-         * TODO: Fix Functionality of Read: (ie.) Add extra Info when we disable buttons
-         * TODO: Add Sorting (ContactList)
+        /* We can only click 'Read' when we aren't editing any contacts currently --> Finished
+         * Fix Functionality of Read: (ie.) Add extra Info when we disable buttons --> Debug? I(Alex) think it's linked to first part of disabling 'Read'
+         * Add Sorting (ContactList), 
          * TODO: Export data to CSV File
          * TODO:(Both of us: Later Stages) Clean up code???
          */
         readButton.setOnAction(e -> {
             for(int i = 0; i < contactList.getChildren().size();i++){
-                ((Contacts) contactList.getChildren().get(i)).setReadFunction();
+                Contacts curr = ((Contacts)contactList.getChildren().get(i));
+                curr.setReadFunction();
 
                 // Contacts contact = ((Contacts) contactList.getChildren().get(i));
                 // Button updateButton = contact.getName().getUpdateButton();
@@ -604,6 +675,14 @@ class AppFrame extends BorderPane{
             }
 
 
+        });
+
+        sortButton.setOnAction(e ->{
+            contactList.sortContacts();
+        });
+
+        deleteButton.setOnAction(e ->{
+            contactList.clearAll();
         });
         //Image Stuff
         //     fileChooser.getExtensionFilters().add(new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
