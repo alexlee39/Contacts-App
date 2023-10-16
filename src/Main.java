@@ -345,7 +345,7 @@ class ContactList extends VBox{
 class Footer extends HBox {
 
     private Button createButton;
-    private Button deleteButton;
+    private Button deleteAllButton;
     private Button readButton;
     private Button updateButton;
     private Button sortButton;
@@ -361,13 +361,13 @@ class Footer extends HBox {
         createButton.setStyle(defaultButtonStyle); 
         readButton = new Button("READ");
         readButton.setStyle(defaultButtonStyle);
-        sortButton = new Button("Sort Tasks (By Name)");
+        sortButton = new Button("Sort Contacts (By Name)");
         sortButton.setStyle(defaultButtonStyle);
-        deleteButton = new Button("DELETE (ALL)");
-        deleteButton.setStyle(defaultButtonStyle);
+        deleteAllButton = new Button("DELETE (ALL)");
+        deleteAllButton.setStyle(defaultButtonStyle);
         exportButton = new Button("Export to CSV");
         exportButton.setStyle(defaultButtonStyle);
-        this.getChildren().addAll(createButton,readButton,sortButton,exportButton,deleteButton);
+        this.getChildren().addAll(createButton,readButton,sortButton,exportButton,deleteAllButton);
         this.setAlignment(Pos.CENTER);
     }
 
@@ -383,8 +383,8 @@ class Footer extends HBox {
         return updateButton; 
     }
 
-    public Button getDeleteButton() {
-        return deleteButton;
+    public Button getDeleteAllButton() {
+        return deleteAllButton;
     }
 
     public Button getSortButton() {
@@ -416,7 +416,7 @@ class AppFrame extends BorderPane{
     private ScrollPane scrollBar;
 
     private Button createButton;
-    private Button deleteButton;
+    private Button deleteAllButton;
     private Button readButton;
     private Button sortButton;
     private Button exportButton;
@@ -457,7 +457,7 @@ class AppFrame extends BorderPane{
         createButton = footer.getCreateButton();
         readButton = footer.getReadButton();
         sortButton = footer.getSortButton();
-        deleteButton = footer.getDeleteButton();
+        deleteAllButton = footer.getDeleteAllButton();
         exportButton = footer.getExportButton();
 
         addListeners();
@@ -472,6 +472,7 @@ class AppFrame extends BorderPane{
             createButton.setOnAction(e -> {
                 createButton.setDisable(true);
                 readButton.setDisable(true);
+                deleteAllButton.setDisable(true);
                 for(int i = 0; i < contactList.getChildren().size();i++){
                     Contacts curr = ((Contacts)contactList.getChildren().get(i));
                     if(contactList != null && curr.getName().getUpdateButton() != null){
@@ -497,6 +498,7 @@ class AppFrame extends BorderPane{
                     }
                     createButton.setDisable(false);
                     readButton.setDisable(false);
+                    deleteAllButton.setDisable(false);
                     for(int i = 0; i < contactList.getChildren().size();i++){
                         Contacts curr = ((Contacts)contactList.getChildren().get(i));
                         if (curr.getName().getUpdateButton() != null){
@@ -516,6 +518,7 @@ class AppFrame extends BorderPane{
                     updateButton.setOnAction(e2 -> {
                         createButton.setDisable(true);
                         readButton.setDisable(true);
+                        deleteAllButton.setDisable(true);
                         for(int i = 0; i < contactList.getChildren().size();i++){
                             Contacts curr = ((Contacts)contactList.getChildren().get(i));
                             curr.getName().getUpdateButton().setDisable(true);
@@ -561,7 +564,7 @@ class AppFrame extends BorderPane{
         /* Deletes all contacts from contactList
          * 
          */
-        deleteButton.setOnAction(e ->{
+        deleteAllButton.setOnAction(e ->{
             contactList.clearAll();
         });
 
